@@ -14,7 +14,6 @@ app.use(express.static("public"));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  // res.render("index");
   const url = 'https://api.giphy.com/v1/gifs/trending?api_key=' + process.env.API_KEY + '&limit=3';
   https.get(url, (response) => {
     let data = '';
@@ -43,26 +42,21 @@ app.get('/', (req, res) => {
   });
 
 });
-// const gif = '';
+
 app.post('/', (req, res) => {
 
   const inputSearch = req.body.search;
   const url = 'https://api.giphy.com/v1/gifs/search?api_key=' + process.env.API_KEY + '&limit=1&q=' + inputSearch + '';
   https.get(url, (response) => {
     let data = '';
-    // let gif = '';
-    response.on('data', (chunk) => {
-      // const gifData = JSON.parse(JSON.stringify(data));
-      // // const picture = data.data[0].url;
-      // console.log(gifData);
-      data += chunk;
+        response.on('data', (chunk) => {
+            data += chunk;
     });
     response.on('end', () => {
       // 'use strict';
       let gifData = JSON.parse(data);
       const gif = gifData.data[0].images.original.url;
-      //console.log(gif);
-      res.render('gif', {
+        res.render('gif', {
         image: gif
       });
     });
@@ -75,5 +69,3 @@ app.post('/', (req, res) => {
 app.listen(3000, function() {
   console.log('Server is running on port 3000.')
 });
-
-// key: WPoc0EuScuZUe8d8PvzLQ8QzRZ0wrHl2
